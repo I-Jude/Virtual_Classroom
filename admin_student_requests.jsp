@@ -113,89 +113,125 @@
                 </div>
             </section>
         </main>
-        <div class="section-top-border">
-            <h3 class="mb-30 request">Requests:</h3>
-            <div class="progress-table-wrap">
-                <div class="progress-table">
-                    <form class="form-default" action="admin_student_requests_action.jsp" method="POST">
+        <main class="main2">
+            <section>
+                <h3 class="mb-30">Student Requests</h3>
+                <form action="admin_student_requests_action.jsp" method="POST">
+                    <div class="progress-table">
                         <div class="table-head">
                             <div class="roll_no">Roll Number</div>
                             <div class="name">Name</div>
                             <div class="name">Class</div>
-                            <div class="accept">Accept / Decline</div>
+                            <div class="accept">Action</div>
                         </div>
-
+    
                         <%
-		try
-		{
-			// register the driver
-			Class.forName("com.mysql.cj.jdbc.Driver");
-
-			// establish the connection with the database
-			Connection con = DriverManager.getConnection("jdbc:mysql://localhost:3306/project" , "root" , "");
-
-			// create a SQL statement
-			Statement stmt = con.createStatement();
-			String sql = "select roll_no, name, degree, course, year from student where is_approved = 0";
-
-			// execute the statement
-			ResultSet rs = stmt.executeQuery (sql);
-
-			// for no requests pending 
-			if (rs == null)
-			{
-%>
-                            <div class="table-row">
-                                <div class="name">
-                                    <%
-						out.println("No Pending request");
-%>
-                                </div>
-                            </div>
-                            <%
-			}
-
-			while(rs.next())
-			{
-%>
-                                <div class="table-row">
-                                    <div class="roll_no">
-                                        <%= rs.getInt(1) %>
-                                    </div>
-                                    <div class="name">
-                                        <%= rs.getString(2) %>
-                                    </div>
-                                    <div class="name">
-                                        <%= rs.getString(3) %>
-                                            <%= rs.getString(4) %>
-                                                <%= rs.getString(5) %>
-                                    </div>
-                                    <div class="accept"><input type="checkbox" name="ad" value="<%= rs.getInt(1)%>"></div>
-                                </div>
-                                <%
-			}
-
-			// close the connection
-			stmt.close();
-			con.close();
-		}
-		catch (Exception e)
-		{
-			out.println(e);
-		}
-%>
-                                    <div class="form-input pt-30 request">
-                                        <input class="genric-btn primary-border" type="submit" name="accept" value="Accept Request">
-                                    </div>
-                                    <div class="form-input pt-30 request">
-                                        <input class="genric-btn primary-border" type="submit" name="reject" value="Delete Requests">
-                                    </div>
-                    </form>
-                </div>
-            </div>
-        </div>
-        </div>
-        </div>
+                            try {
+                                Class.forName("com.mysql.cj.jdbc.Driver");
+                                Connection con = DriverManager.getConnection("jdbc:mysql://localhost:3306/project", "root", "");
+                                Statement stmt = con.createStatement();
+                                String sql = "SELECT roll_no, name, degree, course, year FROM student WHERE is_approved = 0";
+                                ResultSet rs = stmt.executeQuery(sql);
+    
+                                if (!rs.isBeforeFirst()) {
+                        %>
+                                    <div>No pending requests.</div>
+                        <%
+                                } else {
+                                    while (rs.next()) {
+                        %>
+                                        <div class="table-row">
+                                            <div class="roll_no"><%= rs.getInt("roll_no") %></div>
+                                            <div class="name"><%= rs.getString("name") %></div>
+                                            <div class="name"><%= rs.getString("degree") %> <%= rs.getString("course") %> <%= rs.getString("year") %></div>
+                                            <div class="accept">
+                                                <input type="radio" name="decision_<%= rs.getInt("roll_no") %>" value="accept_<%= rs.getInt("roll_no") %>"> Accept
+                                                <input type="radio" style="margin-left: 10px;" name="decision_<%= rs.getInt("roll_no") %>" value="decline_<%= rs.getInt("roll_no") %>"> Decline
+                                            </div>
+                                        </div>
+                        <%
+                                    }
+                                }
+                                rs.close();
+                                stmt.close();
+                                con.close();
+                            } catch (Exception e) {
+                                out.println(e);
+                            }
+                        %>
+                    </div>
+                    <input type="submit" value="Submit">
+                </form>
+            </section>
+        </main>
+    
+        <!-- Styling -->
+        <style>
+            .main2 section {
+                background-color: #4854a4;
+                padding: 20px;
+                color: white;
+                max-width: auto;
+                margin: 0 auto;
+            }
+    
+            .main2 section h3 {
+                text-align: center;
+                color: white;
+                font-size: 28px;
+                margin-bottom: 30px;
+            }
+    
+            .progress-table {
+                width: 100%;
+                display: table;
+                border-collapse: collapse;
+            }
+    
+            .table-head {
+                display: table-row;
+                color: #d1d1d1;
+                border-bottom: 2px solid white;
+            }
+    
+            .table-head .roll_no, .table-head .name, .table-head .accept {
+                display: table-cell;
+                padding: 10px;
+                text-align: center;
+                color: #403f3f;
+            }
+    
+            .table-row {
+                display: table-row;
+                background-color: #fefefe;
+                color: #ffffff; 
+            }
+    
+            .table-row .roll_no, .table-row .name, .table-row .accept {
+                padding: 15px;
+                border-bottom: 1px solid white;
+            }
+    
+            input[type="radio"] {
+                margin-right: 10px;
+            }
+    
+            input[type="submit"] {
+                display: block;
+                margin: 20px auto;
+                padding: 10px 30px;
+                background-color: #ffffff;
+                color: #4854a4;
+                border: none;
+                border-radius: 5px;
+                font-size: 16px;
+                cursor: pointer;
+            }
+    
+            input[type="submit"]:hover {
+                background-color: #d1d1d1;
+            }
+        </style>
         <footer>
             <div class="footer-wrappper footer-bg">
                 <!-- Footer Start-->

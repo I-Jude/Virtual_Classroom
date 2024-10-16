@@ -6521,9 +6521,7 @@ del {
 }
 
 .progress-table .table-row {
-    padding: 15px 0;
-    border-top: 1px solid #edf3fd;
-    display: flex
+    display: flex;
 }
 
 .progress-table .table-row .serial,
@@ -6531,13 +6529,14 @@ del {
 .progress-table .table-row .roll_no,
 .progress-table .table-row .email_id,
 .progress-table .table-row .accept {
-    display: flex;
-    align-items: center
+    color:rgba(211, 27, 27, 0.05);
+    font-weight: 500;
+    line-height: 40px;
 }
 
-.progress-table .table-row .name img {
-    margin-right: 15px
-}
+/* .progress-table .table-row .name img {
+    margin-right: 15px;
+} */
 
 .single-gallery-image {
     margin-top: 30px;

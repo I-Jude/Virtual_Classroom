@@ -22,4 +22,21 @@ INSERT INTO enroll_for (degree, course) VALUES ('B.E', 'Civil Engineering');
 CREATE TABLE student ( roll_no INT PRIMARY KEY, name varchar(50) NOT NULL, password BLOB NOT NULL, email_id varchar(255) NOT NULL, degree varchar(5) NOT NULL, course varchar(30) NOT NULL, year integer NOT NULL, is_approved BOOLEAN DEFAULT false,  CONSTRAINT CHK_year CHECK (year BETWEEN 1 AND 4)) ENGINE = InnoDB;
 
 
-CREATE TABLE faculty ( name varchar(20) NOT NULL, username varchar(50) NOT NULL, password BLOB NOT NULL, email_id varchar(255) NOT NULL, degree varchar(5) NOT NULL, course varchar(30) NOT NULL, year integer NOT NULL, subject varchar(50) primary key, is_approved BOOLEAN DEFAULT false, CONSTRAINT CHK_faculty_year CHECK (year BETWEEN 1 AND 4)) ENGINE = InnoDB;
+CREATE TABLE faculty (
+    name VARCHAR(20) NOT NULL,
+    username VARCHAR(50) NOT NULL,
+    password BLOB NOT NULL,
+    email_id VARCHAR(255) NOT NULL,
+    degree VARCHAR(50) NOT NULL,
+    subject VARCHAR(50) NOT NULL,
+    is_approved BOOLEAN DEFAULT false,
+    course varchar(255),
+    PRIMARY KEY (username)
+
+) ENGINE = InnoDB;
+
+CREATE TABLE study_materials (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    file_name VARCHAR(255),
+    file_data LONGBLOB
+);
